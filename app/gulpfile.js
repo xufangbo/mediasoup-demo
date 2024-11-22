@@ -171,6 +171,9 @@ gulp.task('css', () =>
 
 gulp.task('html', () =>
 {
+	gulp.src('favicon.ico')
+		.pipe(gulp.dest(OUTPUT_DIR));
+
 	return gulp.src('index.html')
 		.pipe(gulp.dest(OUTPUT_DIR));
 });
