@@ -12,7 +12,7 @@ WORKDIR /service
 COPY package.json .
 
 RUN npm config set registry https://registry.npmmirror.com
-RUN npm install
+RUN npm install --legacy-peer-deps  
 COPY server.js .
 COPY config.js .
 COPY lib lib
