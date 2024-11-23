@@ -1,8 +1,8 @@
-FROM node:16 AS stage-one
+FROM node:20 AS stage-one
 
 # Install DEB dependencies and others.
 
-RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
+# RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
 RUN apt-get update -y
 
 RUN apt-get install -y net-tools build-essential python3 python3-pip valgrind
