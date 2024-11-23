@@ -16,6 +16,7 @@ RUN npm install --legacy-peer-deps
 COPY server.js .
 COPY config.js .
 COPY lib lib
+COPY public public
 COPY certs certs
 
 CMD ["node", "/service/server.js"]
