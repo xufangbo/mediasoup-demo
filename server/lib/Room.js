@@ -479,6 +479,8 @@ class Room extends EventEmitter
 				const transport =
 					await this._mediasoupRouter.createWebRtcTransport(webRtcTransportOptions);
 
+					logger.debug("transport 2: %s",JSON.stringify(transport));
+
 				// Store it.
 				broadcaster.data.transports.set(transport.id, transport);
 
@@ -1056,6 +1058,13 @@ class Room extends EventEmitter
 
 				// Store the WebRtcTransport into the protoo Peer data Object.
 				peer.data.transports.set(transport.id, transport);
+
+				// transport.iceCandidates.forEach(x=>{
+				// 	x.ip = "101.201.247.187";
+				// 	x.address = "101.201.247.187";					
+				// });
+
+				// logger.debug("transport 3: %s",JSON.stringify(transport.iceCandidates));
 
 				accept(
 					{
@@ -1931,6 +1940,23 @@ class Room extends EventEmitter
 			logger.warn('_createDataConsumer() | failed:%o', error);
 		}
 	}
+
+	/**
+	 * 修改iceCandidate.ip为公网地址
+	 * 因为无法配置MEDIASOUP_LISTEN_IP为公网地址
+	 * @param {*} webRtcTransportOptions 
+	 * @returns 
+	 */
+		async createWebRtcTransport(webRtcTransportOptions){
+			const transport =
+						await this._mediasoupRouter.createWebRtcTransport(webRtcTransportOptions);
+			// for(let i of transport.iceParameters){
+			// 	i.ip = "101.201.247.187";
+			// }
+			logger.debug("transport: %s",JSON.stringify(transport));
+	
+			return transport;
+		}
 }
 
 module.exports = Room;

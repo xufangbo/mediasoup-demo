@@ -2299,6 +2299,8 @@ export default class RoomClient
 							: undefined
 					});
 
+				console.log("send transportInfo: %o",transportInfo);
+
 				const {
 					id,
 					iceParameters,
