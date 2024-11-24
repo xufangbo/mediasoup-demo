@@ -1,22 +1,16 @@
 FROM node:22
 
-# Install DEB dependencies and others.
+WORKDIR /mediasoup-demo/app
 
-# RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
-RUN apt-get update -y
+RUN mkdir -p ../server
 
-RUN apt-get install -y net-tools build-essential python3 python3-pip valgrind
+COPY . .
+COPY server/config.js ../server/
+COPY server/certs ../server/certs/
 
-WORKDIR /service
+RUN ls
 
-COPY package.json .
-
-RUN npm config set registry https://registry.npmmirror.com
-RUN npm install --legacy-peer-deps  
-COPY server.js .
-COPY config.js .
-COPY lib lib
-COPY public public
-COPY certs certs
-
-CMD ["node", "/service/server.js"]
+CMD ["npm", "run","start"]
+# CMD ["pwd"]
+# CMD ["ls","-a"]
+# CMD ["ls","../server"]

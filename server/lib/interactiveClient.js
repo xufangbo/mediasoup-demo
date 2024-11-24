@@ -8,12 +8,12 @@ const SOCKET_PATH = os.platform() === 'win32'? SOCKET_PATH_WIN : SOCKET_PATH_UNI
 
 module.exports = async function()
 {
-	const socket = net.connect(SOCKET_PATH);
+	// const socket = net.connect(SOCKET_PATH);
 
-	process.stdin.pipe(socket);
-	socket.pipe(process.stdout);
+	// process.stdin.pipe(socket);
+	// socket.pipe(process.stdout);
 
-	socket.on('connect', () => process.stdin.setRawMode(true));
-	socket.on('close', () => process.exit(0));
-	socket.on('exit', () => socket.end());
+	// socket.on('connect', () => process.stdin.setRawMode(true));
+	// socket.on('close', () => process.exit(0));
+	// socket.on('exit', () => socket.end());
 };
