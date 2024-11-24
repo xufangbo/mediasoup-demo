@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+docker stop mediasoup-demo
+docker rm mediasoup-demo
+
 export DEBUG=${DEBUG:="mediasoup-demo-server:INFO* *WARN* *ERROR*"}
 export INTERACTIVE=${INTERACTIVE:="true"}
 export PROTOO_LISTEN_PORT=${PROTOO_LISTEN_PORT:="4443"}
@@ -9,6 +12,9 @@ export MEDIASOUP_LISTEN_IP=${MEDIASOUP_LISTEN_IP:="192.168.2.183"}
 export MEDIASOUP_MIN_PORT=${MEDIASOUP_MIN_PORT:="5010"}
 export MEDIASOUP_MAX_PORT=${MEDIASOUP_MAX_PORT:="5030"}
 
+export MEDIASOUP_WORKER_MIN_PORT=${MEDIASOUP_WORKER_MIN_PORT:="44444"}
+export MEDIASOUP_WORKER_MAX_PORT=${MEDIASOUP_WORKER_MAX_PORT:="44448"}
+
 # Valgrind related options.
 export MEDIASOUP_USE_VALGRIND=${MEDIASOUP_USE_VALGRIND:="false"}
 export MEDIASOUP_VALGRIND_OPTIONS=${MEDIASOUP_VALGRIND_OPTIONS:="--leak-check=full --track-fds=yes --log-file=/storage/mediasoup_valgrind_%p.log"}
@@ -16,11 +22,11 @@ export MEDIASOUP_VALGRIND_OPTIONS=${MEDIASOUP_VALGRIND_OPTIONS:="--leak-check=fu
 docker run \
 	--name=mediasoup-demo \
 	-p ${PROTOO_LISTEN_PORT}:${PROTOO_LISTEN_PORT}/tcp \
+	-p ${MEDIASOUP_WORKER_MIN_PORT}-${MEDIASOUP_WORKER_MAX_PORT}:${MEDIASOUP_WORKER_MIN_PORT}-${MEDIASOUP_WORKER_MAX_PORT}/udp \
+	-p ${MEDIASOUP_WORKER_MIN_PORT}-${MEDIASOUP_WORKER_MAX_PORT}:${MEDIASOUP_WORKER_MIN_PORT}-${MEDIASOUP_WORKER_MAX_PORT}/tcp \
 	-p ${MEDIASOUP_MIN_PORT}-${MEDIASOUP_MAX_PORT}:${MEDIASOUP_MIN_PORT}-${MEDIASOUP_MAX_PORT}/udp \
 	-p ${MEDIASOUP_MIN_PORT}-${MEDIASOUP_MAX_PORT}:${MEDIASOUP_MIN_PORT}-${MEDIASOUP_MAX_PORT}/tcp \
 	-v ${PWD}:/storage \
-	-v ${MEDIASOUP_SRC}:/mediasoup-src \
-	--init \
 	-e DEBUG \
 	-e INTERACTIVE \
 	-e DOMAIN \
@@ -34,6 +40,9 @@ docker run \
 	-e MEDIASOUP_USE_VALGRIND \
 	-e MEDIASOUP_VALGRIND_OPTIONS \
 	-e MEDIASOUP_WORKER_BIN \
-	-it \
-	--rm \
 	mediasoup-demo:latest
+
+	# -it \
+	# --rm \
+	# --init \
+	# -v ${MEDIASOUP_SRC}:/mediasoup-src \
