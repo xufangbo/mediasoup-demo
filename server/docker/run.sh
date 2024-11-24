@@ -3,6 +3,13 @@
 docker stop mediasoup-demo
 docker rm mediasoup-demo
 
+export MEDIASOUP_LISTEN_IP=0.0.0.0
+export MEDIASOUP_ANNOUNCED_IP=101.201.247.187
+export MEDIASOUP_MIN_PORT=5010
+export MEDIASOUP_MAX_PORT=5030
+
+#-----------------------------------------------------
+
 export DEBUG=${DEBUG:="mediasoup-demo-server:INFO* *WARN* *ERROR*"}
 export INTERACTIVE=${INTERACTIVE:="true"}
 export PROTOO_LISTEN_PORT=${PROTOO_LISTEN_PORT:="4443"}
